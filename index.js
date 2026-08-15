@@ -80,8 +80,9 @@ client.on(Events.InteractionCreate, async interaction => {
         interaction.options.getString('rankhientai');
 
     // 2012 → K12
-    const khoa =
-        `K${String(namSinh).slice(-2)}`;
+    const khoa = Number(namSinh) >= 2000
+  ? `K${Number(String(namSinh).slice(-2))}`
+  : String(namSinh).slice(-2);
 
     try {
 
