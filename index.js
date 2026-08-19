@@ -31,6 +31,49 @@ const client = new Client({
 
 client.once(Events.ClientReady, bot => {
     console.log(`Bot online: ${bot.user.tag}`);
+
+    // ==============================
+    // NHẮC THÀNH VIÊN MỚI MỖI 48 GIỜ
+    // ==============================
+
+    setInterval(async () => {
+
+        const guild = client.guilds.cache.get(
+            "1534044512643715232"
+        );
+
+        if (!guild) return;
+
+        await guild.members.fetch();
+
+        const newMembers = guild.members.cache.filter(
+            member => member.roles.cache.has(
+                "1538054747217600602"
+            )
+        );
+
+        for (const member of newMembers.values()) {
+
+            try {
+
+                await member.send(
+                    "🔔 Bạn chưa đăng ký thành viên trong server Valorant Mobile. Hãy dùng `/Dangki` để hoàn tất đăng ký nhé."
+                );
+
+                console.log(
+                    `✅ Đã nhắc ${member.user.tag}`
+                );
+
+            } catch (err) {
+
+                console.log(
+                    `❌ Không thể gửi DM cho ${member.user.tag}`
+                );
+
+            }
+        }
+
+    }, 48 * 60 * 60 * 1000);
 });
 
 client.on(Events.InteractionCreate, async interaction => {
@@ -81,8 +124,8 @@ client.on(Events.InteractionCreate, async interaction => {
 
     // 2012 → K12
     const khoa = Number(namSinh) >= 2000
-  ? `K${Number(String(namSinh).slice(-2))}`
-  : String(namSinh).slice(-2);
+        ? `K${Number(String(namSinh).slice(-2))}`
+        : String(namSinh).slice(-2);
 
     try {
 
@@ -119,22 +162,26 @@ client.on(Events.InteractionCreate, async interaction => {
             ephemeral: true
         });
     }
-try {
-    await channel.send(
-        `${member}\n` +
-        `**${ten} - ${khoa}**\n` +
-        `**Peak Rank:** ${peakRank}\n` +
-        `**Rank hiện tại:** ${rankHienTai}`
-    );
-} catch (error) {
-    console.error('Không thể gửi vào kênh đăng ký:', error);
 
-    return interaction.reply({
-        content:
-            '⚠️ Đã cấp role thành công nhưng bot không có quyền gửi tin vào kênh đăng ký.',
-        ephemeral: true
-    });
-}
+    try {
+        await channel.send(
+            `${member}\n` +
+            `**${ten} - ${khoa}**\n` +
+            `**Peak Rank:** ${peakRank}\n` +
+            `**Rank hiện tại:** ${rankHienTai}`
+        );
+    } catch (error) {
+        console.error(
+            'Không thể gửi vào kênh đăng ký:',
+            error
+        );
+
+        return interaction.reply({
+            content:
+                '⚠️ Đã cấp role thành công nhưng bot không có quyền gửi tin vào kênh đăng ký.',
+            ephemeral: true
+        });
+    }
 
     await interaction.reply({
         content:
