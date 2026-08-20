@@ -137,7 +137,7 @@ async function updateStatistics() {
         try {
 
             await humanChannel.setName(
-                `👥 | thành-viên-${humanCount}`
+                `👥│thành-viên-${humanCount}`
             );
 
         } catch (error) {
@@ -167,7 +167,7 @@ async function updateStatistics() {
         try {
 
             await botChannel.setName(
-                `🤖 | bot-${botCount}`
+                `🤖│bot-${botCount}`
             );
 
         } catch (error) {
